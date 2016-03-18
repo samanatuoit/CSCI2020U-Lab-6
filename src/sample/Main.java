@@ -76,11 +76,25 @@ public class Main extends Application {
             heightMult = avgHousingPricesByYear[i] / avgHousingPricesByYear[0];
             System.out.println("heightMult = " + heightMult);
             baseY -= ((baseHeight * heightMult) - baseHeight);
-            gc.fillRect(baseX, baseY, 20, baseHeight * heightMult);
-            baseX += 50;
+            gc.fillRect(baseX, baseY, 10, baseHeight * heightMult);
+            baseX += 30;
             baseY = 450;
 
 
+        }
+
+        baseX = 60;
+        baseY = 350;
+        baseHeight = 200;
+        gc.setFill(Color.BLUE);
+
+        for (int i = 0; i < avgCommercialPricesByYear.length; i++) {
+
+            heightMult = avgCommercialPricesByYear[i] / avgCommercialPricesByYear[0];
+            baseY -= ((baseHeight * heightMult) - baseHeight);
+            gc.fillRect(baseX, baseY, 10, baseHeight * heightMult);
+            baseX += 30;
+            baseY = 350;
         }
 
 
