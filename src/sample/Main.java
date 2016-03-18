@@ -8,12 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
 public class Main extends Application {
     private Canvas canvas;
+
+    // bar chart date
     private static double[] avgHousingPricesByYear = {
             247381.0,264171.4,287715.3,294736.1,
             308431.4,322635.9,340253.0,363153.7
@@ -22,6 +25,19 @@ public class Main extends Application {
             1121585.3,1219479.5,1246354.2,1295364.8,
             1335932.6,1472362.0,1583521.9,1613246.3
     };
+
+    // pie chart data
+    private static String[] ageGroups = {
+            "18-25", "26-35", "36-45", "46-55", "56-65", "65+"
+    };
+    private static int[] purchasesByAgeGroup = {
+            648, 1021, 2453, 3173, 1868, 2247
+    };
+    private static Color[] pieColours = {
+            Color.AQUA, Color.GOLD, Color.DARKORANGE,
+            Color.DARKSALMON, Color.LAWNGREEN, Color.PLUM
+    };
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -74,7 +90,7 @@ public class Main extends Application {
 
 
             heightMult = avgHousingPricesByYear[i] / avgHousingPricesByYear[0];
-            System.out.println("heightMult = " + heightMult);
+            //System.out.println("heightMult = " + heightMult);
             baseY -= ((baseHeight * heightMult) - baseHeight);
             gc.fillRect(baseX, baseY, 10, baseHeight * heightMult);
             baseX += 30;
@@ -96,12 +112,79 @@ public class Main extends Application {
             baseX += 30;
             baseY = 350;
         }
+        /*
+        fillArc Parameters:
+        x - the X coordinate of the arc.
+        y - the Y coordinate of the arc.
+        w - the width of the arc.
+        h - the height of the arc.
+        startAngle - the starting angle of the arc in degrees.
+        arcExtent - the angular extent of the arc in degrees.
+        closure - closure type (Round, Chord, Open) or null.
+         */
+        //gc.fillArc(500,250,250,250,0,45,ArcType.ROUND);
+
+        /*gc.setFill(Color.BLUE);
+        gc.fillArc(500,250,250,250,45,110, ArcType.ROUND);
+        gc.setFill(Color.RED);
+        gc.fillArc(500,250,250,250,110,145, ArcType.ROUND);
+        gc.setFill(Color.YELLOW);
+        gc.fillArc(500,250,250,250,145,260, ArcType.ROUND);*/
+
+        /*gc.setFill(Color.BLUE);
+        gc.fillArc(500,250,250,250,0,90, ArcType.ROUND);
+        gc.setFill(Color.RED);
+        gc.fillArc(500,250,250,250,90,90,ArcType.ROUND);
+        gc.setFill(Color.YELLOW);
+        gc.fillArc(500,250,250,250,180,90,ArcType.ROUND);
+        gc.setFill(Color.GREEN);
+        gc.fillArc(500,250,250,250,270,90,ArcType.ROUND);*/
 
 
 
 
 
-        //gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        double startAngle = 0;
+        double extentAngle = 0;
+        double totalPurchases = 0;
+
+        for (double purchase : purchasesByAgeGroup) {
+            totalPurchases += purchase;
+        }
+
+        /*
+
+        First version
+
+        for (int i=0; i < ageGroups.length; i++) {
+            gc.setFill(pieColours[i]);
+            //extentAngle = (((totalPurchases / purchasesByAgeGroup[i]) / 100) * 360);
+            extentAngle += (purchasesByAgeGroup[i] / totalPurchases) * (360 - startAngle);
+            System.out.println("startAngle = " + startAngle);
+            System.out.println("extantAngle = " + extentAngle);
+            gc.fillArc(500, 250, 250, 250,startAngle, extentAngle, ArcType.ROUND);
+            startAngle = extentAngle;
+
+        }
+        */
+
+        /* Second version */
+
+        for (int i =0; i < ageGroups.length; i++) {
+            gc.setFill(pieColours[i]);
+            startAngle += extentAngle;
+            extentAngle = (purchasesByAgeGroup[i] / totalPurchases) * 360;
+            gc.fillArc(500, 250, 250, 250, startAngle, extentAngle, ArcType.ROUND);
+        }
+
+
+
+
+
+
+
+
     }
 
 
