@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -171,12 +172,46 @@ public class Main extends Application {
 
         /* Second version */
 
+        // Pie chart
+
         for (int i =0; i < ageGroups.length; i++) {
             gc.setFill(pieColours[i]);
             startAngle += extentAngle;
             extentAngle = (purchasesByAgeGroup[i] / totalPurchases) * 360;
-            gc.fillArc(500, 250, 250, 250, startAngle, extentAngle, ArcType.ROUND);
+            gc.fillArc(500, 400, 250, 250, startAngle, extentAngle, ArcType.ROUND);
+            gc.setStroke(Color.BLACK);
+            gc.strokeArc(500, 400, 250, 250, startAngle, extentAngle, ArcType.ROUND);
         }
+
+        // Legend
+
+        gc.setStroke(Color.BLACK);
+        gc.strokeRect(500, 0, 400, 350);
+
+        Font font = new Font("Arial", 22);
+        gc.setFont(font);
+        gc.setFill(Color.BLACK);
+        gc.fillText("Age groups", 650,30);
+
+        /*
+        gc.strokeRect(530, 50, 20, 20);
+        gc.setFill();
+        */
+        baseHeight = 50;
+        font = new Font("Arial", 14);
+        gc.setFont(font);
+
+        for (int i=0; i < ageGroups.length; i++) {
+            gc.strokeRect(530, baseHeight, 20, 20);
+            gc.setFill(pieColours[i]);
+            gc.fillRect(530, baseHeight, 20, 20);
+            gc.setFill(Color.BLACK);
+            gc.fillText(ageGroups[i], 570, (baseHeight + 15));
+
+            baseHeight += 50;
+        }
+
+
 
 
 
